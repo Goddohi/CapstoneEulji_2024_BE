@@ -18,8 +18,8 @@ public class MemberService {
         return memberRepositroy.save(request);
     }
 
-    public Optional<Member> findUserByStudenid(AddMemberRequest response) {
-        return memberRepositroy.findByStudentid(response.getStudentid());
+    public Optional<Member> findMemberByStudenid(String studentid) {
+        return memberRepositroy.findByStudentid(studentid);
     }
 
 

@@ -19,7 +19,8 @@ public class Member {
     @Column
     private String person;
 
-    @Column(name = "studentid")
+    //학번은 유일하게 한명만 가능하다.
+    @Column(name = "studentid",unique = true)
     private String studentid;
 
     @Column

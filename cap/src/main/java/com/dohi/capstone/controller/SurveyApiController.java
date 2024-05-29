@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Map;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @RestController//HTTP Response Body에 객체 데이터를 json형식으로 반환하는 컨트롤러
@@ -30,16 +31,22 @@ public class SurveyApiController {
     //잘저장되는지 확인용 postman으로 확인가능
     @PostMapping("/api/survey")
     public boolean addArticle(@RequestBody AddMemberRequest request){
+        try{
+            Member savedm = memberService.save(request.toMemberEntity());
+        }catch(Exception e){
+            //굳이 안해도 되긴합니다 :)
+            Member savedm = memberService.findMemberByStudenid(request.getStudentid()).orElseThrow(()-> new RuntimeException("회원정보가 존재하지않습니다."));
+        }
+
         Survey saveds = surveyService.save(request.toSurveyEntity());
-        Member saveem = memberService.save(request.toMemberEntity());
         return true;
     }
 
     @PutMapping("/api/survey/update")
     public ResponseEntity<Survey> updateArticle(@RequestBody ResultRequest request) {
-        Survey updatedSurvey = surveyService.updateResult(request);
-        return ResponseEntity.ok()
-                .body(updatedSurvey);
+            Survey updatedSurvey = surveyService.updateResult(request);
+            return ResponseEntity.ok()
+                    .body(updatedSurvey);
     }
 //TEST Code - Python  지워도 됨
     @PostMapping("/api/survey/ver2")
