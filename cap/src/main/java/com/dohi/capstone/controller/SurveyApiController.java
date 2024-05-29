@@ -15,6 +15,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Map;
 import java.util.Optional;
 
@@ -75,6 +78,7 @@ public class SurveyApiController {
     }
     //test code용
     private String convertToJson(Survey surveyForm) {
+
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             return objectMapper.writeValueAsString(surveyForm);
@@ -83,4 +87,48 @@ public class SurveyApiController {
             return null; // JSON 변환 실패 시 null 반환
         }
     }
-}
+
+    //TEST Code2 - Python  지워도 됨
+    @PostMapping("/api/survey/ver3")
+        public void test(@RequestBody AddMemberRequest request) {
+            Survey saveds = surveyService.save(request.toSurveyEntity());
+            try{
+                Member savedm = memberService.save(request.toMemberEntity());
+            }catch(Exception e){
+                //굳이 안해도 되긴합니다 :)
+                Member savedm = memberService.findMemberByStudenid(request.getStudentid()).orElseThrow(()-> new RuntimeException("회원정보가 존재하지않습니다."));
+            }
+            String pythonScriptPath = "/path/언젠간만들어질파이썬파일.py";
+
+            ObjectMapper objectMapper = new ObjectMapper();
+            String jsonInput =null;
+            try{
+                jsonInput=objectMapper.writeValueAsString(saveds);
+            }catch(IOException e){e.printStackTrace();}
+
+            String[] command = {"python", pythonScriptPath, jsonInput};
+
+            try {
+                ProcessBuilder pb = new ProcessBuilder(command);
+                Process process = pb.start();
+
+                // 파이썬 스크립트의 출력을 읽어오기
+                BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+                String line;
+                int processedValue;
+                while ((line = reader.readLine()) != null) {
+                    // 출력값을 읽어와서 필요한 작업 수행
+                    // 여기서는 정수로 변환하여 저장
+                    processedValue = Integer.parseInt(line);
+                    System.out.println("Processed value: " + processedValue);
+                }
+                // 프로세스 종료 대기
+                int exitCode = process.waitFor();
+                System.out.println("Exited with error code " + exitCode);
+
+            } catch (IOException | InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
