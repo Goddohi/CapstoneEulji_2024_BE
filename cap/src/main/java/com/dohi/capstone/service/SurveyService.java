@@ -40,4 +40,11 @@ public class SurveyService {
 
         return updateSurvey;
     }
+    @Transactional
+    public Survey updateResult(Survey request){
+        Survey updateSurvey = surveyRepositroy.findFirstByStudentidOrderByIdDesc(request.getStudentid());
+        updateSurvey.UpdateResult(request.getResult());
+
+        return updateSurvey;
+    }
 }
