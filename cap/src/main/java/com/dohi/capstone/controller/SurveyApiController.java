@@ -53,7 +53,12 @@ public class SurveyApiController {
     public ResponseEntity<String> submitSurvey(@RequestBody AddMemberRequest request) {
 
         Survey saveds = surveyService.save(request.toSurveyEntity());
-        Member saveem = memberService.save(request.toMemberEntity());
+        try{
+            Member savedm = memberService.save(request.toMemberEntity());
+        }catch(Exception e){
+            //굳이 안해도 되긴합니다 :)
+            Member savedm = memberService.findMemberByStudenid(request.getStudentid()).orElseThrow(()-> new RuntimeException("회원정보가 존재하지않습니다."));
+        }
         String surveyJson = convertToJson(saveds);
 
         // 파이썬으로보냄
