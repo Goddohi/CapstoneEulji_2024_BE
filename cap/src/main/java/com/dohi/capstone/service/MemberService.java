@@ -2,7 +2,6 @@ package com.dohi.capstone.service;
 
 import com.dohi.capstone.Repository.MemberRepositroy;
 import com.dohi.capstone.domain.Member;
-import com.dohi.capstone.dto.AddMemberRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

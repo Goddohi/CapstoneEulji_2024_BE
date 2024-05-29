@@ -19,7 +19,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Map;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @RestController//HTTP Response Body에 객체 데이터를 json형식으로 반환하는 컨트롤러
