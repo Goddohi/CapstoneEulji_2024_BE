@@ -59,7 +59,6 @@ public class SurveyApiController {
         // 파이썬으로보냄
         String pythonServerUrl = "http://localhost:5000/process";
         ResponseEntity<Map> responseEntity = restTemplate.postForEntity(pythonServerUrl, surveyJson, Map.class);
-
         if (responseEntity.getStatusCode().is2xxSuccessful() && responseEntity.getBody() != null) {
             Map<String, Object> result = responseEntity.getBody();
             ResultRequest resultRequest = new ResultRequest(saveds.getStudentid(),(int) result.get("result"));
