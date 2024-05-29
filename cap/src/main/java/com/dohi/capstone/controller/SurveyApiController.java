@@ -50,7 +50,7 @@ public class SurveyApiController {
             return ResponseEntity.ok()
                     .body(updatedSurvey);
     }
-//TEST Code - Python  지워도 됨
+//TEST Code - Python  제작중 지워도됨
     @PostMapping("/api/survey/ver2")
     public ResponseEntity<String> submitSurvey(@RequestBody AddMemberRequest request) {
 
@@ -87,7 +87,7 @@ public class SurveyApiController {
         }
     }
 
-    //TEST Code2 - Python  지워도 됨
+    //TEST Code2 - Python  제작중 완성아님
     @PostMapping("/api/survey/ver3")
         public void test(@RequestBody AddMemberRequest request) {
             Survey saveds = surveyService.save(request.toSurveyEntity());
@@ -97,7 +97,7 @@ public class SurveyApiController {
                 //굳이 안해도 되긴합니다 :)
                 Member savedm = memberService.findMemberByStudenid(request.getStudentid()).orElseThrow(()-> new RuntimeException("회원정보가 존재하지않습니다."));
             }
-            String pythonScriptPath = "/path/언젠간만들어질파이썬파일.py";
+            String pythonScriptPath = "\"C:\\testmodel5\\testRunCode.py\"";
 
             ObjectMapper objectMapper = new ObjectMapper();
             String jsonInput =null;
@@ -106,12 +106,10 @@ public class SurveyApiController {
             }catch(IOException e){e.printStackTrace();}
 
             String[] command = {"python", pythonScriptPath, jsonInput};
-
             try {
                 ProcessBuilder pb = new ProcessBuilder(command);
                 Process process = pb.start();
 
-                // 파이썬 스크립트의 출력을 읽어오기
                 BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
                 String line;
                 int processedValue;
