@@ -50,6 +50,7 @@ public class SurveyApiController {
             return ResponseEntity.ok()
                     .body(updatedSurvey);
     }
+
 //TEST Code - Python  제작중 지워도됨
     @PostMapping("/api/survey/ver2")
     public ResponseEntity<String> submitSurvey(@RequestBody AddMemberRequest request) {
@@ -87,7 +88,9 @@ public class SurveyApiController {
         }
     }
 
+    ////////////////////////////////////
     //TEST Code2 - Python  제작중 완성아님
+    //// ML sever를 따로 구축하기로 해서 해당 코드 안사용
     @PostMapping("/api/survey/ver3")
         public void test(@RequestBody AddMemberRequest request) {
             Survey saveds = surveyService.save(request.toSurveyEntity());
@@ -97,7 +100,7 @@ public class SurveyApiController {
                 //굳이 안해도 되긴합니다 :)
                 Member savedm = memberService.findMemberByStudenid(request.getStudentid()).orElseThrow(()-> new RuntimeException("회원정보가 존재하지않습니다."));
             }
-            String pythonScriptPath = "\"C:\\testmodel5\\testRunCode.py\"";
+            String pythonScriptPath = "C:\\testmodel5\\testRunCode.py";
 
             ObjectMapper objectMapper = new ObjectMapper();
             String jsonInput =null;
